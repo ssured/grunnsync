@@ -1,3 +1,74 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      {{#if connection.isOnline}}
+        <span class="label label-success pull-right">online {{pouchdb.syncStatus}}</span>
+      {{else}}
+        <span class="label label-info pull-right">offline {{pouchdb.syncStatus}}</span>
+      {{/if}}
 
-{{outlet}}
+      <h2>My interests</h2>
+      <div class="input-group">
+        {{input
+          value=topic
+          class="form-control"
+          placeholder="What interests you?"
+          insert-newline='addTopic'}}
+        <span class="input-group-btn">
+          <a class="btn btn-primary" {{action "addTopic"}}>Add topic</a>
+        </span>
+      </div>
+      <ul class="list-group">
+        {{#each myDocs as |doc|}}
+          <li class="list-group-item" {{action "removeTopic" doc}}>
+            <span class="glyphicon glyphicon-minus-sign pull-right text-danger"></span>
+            {{doc.topic}}
+            <div class="clearfix"></div>
+          </li>
+        {{else}}
+          <li class="list-group-item disabled">
+            Please share your favorite topics with us
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="col-sm-6">
+      <h2>GrunnJS interests</h2>
+
+      <ul class="list-group">
+        {{#each sortedTopics as |helper|}}
+          <li class="list-group-item" {{action "addTopic" helper.topic}}>
+            <span class="badge">{{helper.count}}</span>
+            <span class="glyphicon glyphicon-plus-sign text-success"></span>
+            {{helper.topic}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center">
+  <a href="https://github.com/ssured/grunnsync" class="text-default">
+    Sjoerd de Jong - MIT license 2015 - @ssured
+  </a>
+</div>
+
+{{!--
+<hr/>
+<div class="container">
+  <h3>Debug info: raw db data</h3>
+  {{#each allDocs as |doc|}}
+    <div>
+      {{#if doc.isPending}}
+        Loading... {{doc.id}}
+      {{else}}
+        <code>{{doc._id}}</code>
+        <b>{{doc.topic}}</b>
+        {{doc.user}}
+      {{/if}}
+    </div>
+  {{/each}}
+</div>
+ --}}
