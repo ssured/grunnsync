@@ -21,6 +21,7 @@ export default Ember.Object.extend({
   load: function() {
     var docId = this.get('_id');
     var self = this;
+
     this.get('pouchdb.db').get(docId).then(
       function(doc) {
         self.setProperties(doc);
@@ -31,6 +32,7 @@ export default Ember.Object.extend({
   },
   save: function() {
     var doc = this.getProperties('_id', '_rev', 'user', 'topic');
+
     if (Ember.isEmpty(doc._rev)) {
       delete doc._rev;
     }
@@ -39,6 +41,7 @@ export default Ember.Object.extend({
   },
   remove: function() {
     var doc = this.getProperties('_id', '_rev');
+
     if (!Ember.isEmpty(doc._rev)) {
       this.get('pouchdb.db').remove(doc);
     }

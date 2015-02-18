@@ -59,7 +59,7 @@
 <hr/>
 <div class="container">
   <h3>Debug info: raw db data</h3>
-  {{#each allDocs as |doc|}}
+  {{#each pouchdb.allDocs as |doc|}}
     <div>
       {{#if doc.isPending}}
         Loading... {{doc.id}}
